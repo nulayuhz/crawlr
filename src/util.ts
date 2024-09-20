@@ -22,6 +22,7 @@ export const delay = (ms) => {
 };
 
 export const isExternalLink = (link, baseUrl) => {
+  // domain extraction regex : https://regex101.com/r/jN6kU2/1
   const regex = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/;
   const domain = link.match(regex);
   const baseUrlDomain = baseUrl.match(regex);

@@ -5,9 +5,9 @@ import path from "path";
 import urlParser from "url";
 import randomUserAgent from "random-useragent";
 
-const baseUrl = "https://insulet.com"; // set here
+const baseUrl = "https://insulet.com"; // modify this
+const desiredKeywords: string[] = ["Sec filings", "financial", "report"]; // modify this
 
-const desiredKeywords: string[] = ["Sec filings"];
 const fileUrlsMatchedWithKeywords = {};
 const crawlImages = false;
 

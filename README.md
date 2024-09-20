@@ -1,3 +1,5 @@
+This is a simple web crawler for downloading documents from pages that match certain keywords
+
 - install NVM https://github.com/coreybutler/nvm-windows
 - after it is installed, in Powershell, run `nvm install 20.17.0`
 - type `node -v` verify you have it installed, if you see "v20.17.0" that means it is good

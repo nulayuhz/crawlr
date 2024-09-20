@@ -1,4 +1,5 @@
-import fetch from "node-fetch";
+// import fetch from "node-fetch";
+import axios from "axios";
 import * as cheerio from "cheerio";
 import fs from "fs";
 import path from "path";
@@ -24,7 +25,13 @@ const error_file = fs.createWriteStream("./error.log", {
   flags: "w",
 });
 const headers = {
-  "User-Agent": randomUserAgent.getRandom(userAgents),
+  // "User-Agent": randomUserAgent.getRandom(userAgents),
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+  Accept:
+    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  "Accept-Language": "en-US,en;q=0.9",
 };
 
 const options = {
@@ -85,13 +92,16 @@ const crawl = async ({ url }) => {
     report_file.write(util.format(url) + "\n");
     let response;
     try {
-      response = await fetch(url, options);
+      // response = await fetch(url, options);
+      response = await axios.get(url, options);
+      console.log(response);
     } catch (e) {
       error_file.write(util.format(e) + "\n");
       error_file.write(util.format(url) + "\n");
+      continue;
     }
 
-    const html = await response.text();
+    const html = response.data;
     const $ = cheerio.load(html);
     const links = $("a")
       .map((i, link) => link.attribs.href)
@@ -160,10 +170,12 @@ for (const url in fileUrlsMatchedWithKeywords) {
     report_file.write("downloading file... " + url + "\n");
     try {
       let formattedLink = link;
-      fetch(url, options).then((response) => {
+
+      // fetch(url, options)
+      axios.get(url, options).then((response) => {
         const filename = path.basename(formattedLink);
         const dest = fs.createWriteStream(`files/${filename}`);
-        response.body.pipe(dest);
+        response.data.pipe(dest);
         downloadedFile.add(url);
       });
     } catch (e) {

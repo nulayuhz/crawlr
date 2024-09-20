@@ -78,7 +78,6 @@ const crawl = async ({ url }) => {
       fileUrlsMatchedWithKeywords[key].push(link);
     }
     if (host && link.includes(host)) {
-      console.log("crawling child page...", link);
       try {
         crawl({
           url: getUrl(link),
